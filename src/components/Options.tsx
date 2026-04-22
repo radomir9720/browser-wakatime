@@ -379,6 +379,7 @@ export default function Options(): JSX.Element {
                   <SitesList
                     addButtonLabel="Add tab/workspace name"
                     handleChange={updateTabNameFilterList}
+                    urlPlaceholder="ExactTabName or *wildcard*"
                     label="Tab names"
                     sites={state.tabNameFilterList}
                     helpText={
