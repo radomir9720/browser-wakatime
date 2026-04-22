@@ -10,9 +10,9 @@ export type ExtensionStatus = 'allGood' | 'trackingDisabled' | 'notSignedIn' | '
 export type LoggingStyle = 'allow' | 'deny';
 
 /**
- * Tab name filter mode: 'deny' to exclude tabs, 'allow' to include only specified tabs
+ * Tab group name filter mode: 'deny' to exclude tab groups, 'allow' to include only specified tab groups
  */
-export type TabNameFilterMode = 'allow' | 'deny';
+export type TabGroupNameFilterMode = 'allow' | 'deny';
 
 /**
  * Logging type
@@ -108,11 +108,11 @@ export interface Config {
   /**
    * List of tab names to filter
    */
-  tabNameFilterList: string[];
+  tabGroupNameFilterList: string[];
   /**
-   * Tab name filter mode: 'deny' to exclude tabs, 'allow' to include only specified tabs
+   * Tab group name filter mode: 'deny' to exclude tab groups, 'allow' to include only specified tab groups
    */
-  tabNameFilterMode: TabNameFilterMode;
+  tabGroupNameFilterMode: TabGroupNameFilterMode;
   /**
    * Options for theme
    */
@@ -209,9 +209,9 @@ const config: Config = {
 
   summariesApiEndPoint: process.env.SUMMARIES_API_URL ?? '/users/current/summaries',
 
-  tabNameFilterList: [],
+  tabGroupNameFilterList: [],
 
-  tabNameFilterMode: 'deny',
+  tabGroupNameFilterMode: 'deny',
 
   theme: 'light',
   tooltips: {

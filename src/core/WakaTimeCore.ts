@@ -97,18 +97,18 @@ class WakaTimeCore {
   shouldLogTabByName(tabName: string | undefined, settings: Settings): boolean {
     if (!settings.useGroupNameAsProjectName && !settings.logOnlyGroupedTabsActivity) return true;
     if (!tabName) return true;
-    if (settings.tabNameFilterList.length === 0) return true;
+    if (settings.tabGroupNameFilterList.length === 0) return true;
 
-    if (settings.tabNameFilterMode === 'deny') {
+    if (settings.tabGroupNameFilterMode === 'deny') {
       return (
-        settings.tabNameFilterList.find((pattern) => {
+        settings.tabGroupNameFilterList.find((pattern) => {
           const re = new RegExp(pattern.replace(/\*/g, '.*'));
           return re.test(tabName);
         }) == undefined
       );
     } else {
       return (
-        settings.tabNameFilterList.find((pattern) => {
+        settings.tabGroupNameFilterList.find((pattern) => {
           const re = new RegExp(pattern.replace(/\*/g, '.*'));
           return re.test(tabName);
         }) !== undefined

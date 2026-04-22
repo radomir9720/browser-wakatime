@@ -80,8 +80,8 @@ describe('wakatime config', () => {
           "ignored",
         ],
         "summariesApiEndPoint": "/users/current/summaries",
-        "tabNameFilterList": [],
-        "tabNameFilterMode": "deny",
+        "tabGroupNameFilterList": [],
+        "tabGroupNameFilterMode": "deny",
         "theme": "light",
         "tooltips": {
           "allGood": "",

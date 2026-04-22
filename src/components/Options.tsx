@@ -37,8 +37,8 @@ export default function Options(): JSX.Element {
     loggingStyle: config.loggingStyle,
     loggingType: config.loggingType,
     socialMediaSites: config.socialMediaSites,
-    tabNameFilterList: [],
-    tabNameFilterMode: 'deny',
+    tabGroupNameFilterList: [],
+    tabGroupNameFilterMode: 'deny',
     theme: config.theme,
     trackSocialMedia: config.trackSocialMedia,
     useGroupNameAsProjectName: config.useGroupNameAsProjectName,
@@ -79,8 +79,8 @@ export default function Options(): JSX.Element {
       loggingStyle: state.loggingStyle,
       loggingType: state.loggingType,
       socialMediaSites: state.socialMediaSites.filter((item) => !!item.trim()),
-      tabNameFilterList: state.tabNameFilterList.filter((item) => !!item.trim()),
-      tabNameFilterMode: state.tabNameFilterMode,
+      tabGroupNameFilterList: state.tabGroupNameFilterList.filter((item) => !!item.trim()),
+      tabGroupNameFilterMode: state.tabGroupNameFilterMode,
       theme: state.theme,
       trackSocialMedia: state.trackSocialMedia,
       useGroupNameAsProjectName: state.useGroupNameAsProjectName,
@@ -166,17 +166,17 @@ export default function Options(): JSX.Element {
     }));
   }, []);
 
-  const updateTabNameFilterMode = useCallback((style: string) => {
+  const updateTabGroupNameFilterMode = useCallback((style: string) => {
     setState((oldState) => ({
       ...oldState,
-      tabNameFilterMode: style === 'allow' ? 'allow' : 'deny',
+      tabGroupNameFilterMode: style === 'allow' ? 'allow' : 'deny',
     }));
   }, []);
 
-  const updateTabNameFilterList = useCallback((tabNameFilterList: string[]) => {
+  const updateTabGroupNameFilterList = useCallback((tabGroupNameFilterList: string[]) => {
     setState((oldState) => ({
       ...oldState,
-      tabNameFilterList,
+      tabGroupNameFilterList,
     }));
   }, []);
 
@@ -352,10 +352,10 @@ export default function Options(): JSX.Element {
                     <input
                       id="tabNameFilterDeny"
                       type="radio"
-                      name="tabNameFilterMode"
+                      name="tabGroupNameFilterMode"
                       className="form-check-input"
-                      checked={state.tabNameFilterMode === 'deny'}
-                      onChange={(_) => updateTabNameFilterMode('deny')}
+                      checked={state.tabGroupNameFilterMode === 'deny'}
+                      onChange={(_) => updateTabGroupNameFilterMode('deny')}
                     />
                     <label className="form-check-label" htmlFor="tabNameFilterDeny">
                       Log all tabs except tabs from the list
@@ -366,10 +366,10 @@ export default function Options(): JSX.Element {
                     <input
                       id="tabNameFilterAllow"
                       type="radio"
-                      name="tabNameFilterMode"
+                      name="tabGroupNameFilterMode"
                       className="form-check-input"
-                      checked={state.tabNameFilterMode === 'allow'}
-                      onChange={(_) => updateTabNameFilterMode('allow')}
+                      checked={state.tabGroupNameFilterMode === 'allow'}
+                      onChange={(_) => updateTabGroupNameFilterMode('allow')}
                     />
                     <label className="form-check-label" htmlFor="tabNameFilterAllow">
                       Log only tabs from the list
@@ -377,15 +377,15 @@ export default function Options(): JSX.Element {
                   </div>
 
                   <SitesList
-                    addButtonLabel="Add tab/workspace name"
-                    handleChange={updateTabNameFilterList}
-                    urlPlaceholder="ExactTabName or *wildcard*"
-                    label="Tab names"
-                    sites={state.tabNameFilterList}
+                    addButtonLabel="Add tab group/workspace name"
+                    handleChange={updateTabGroupNameFilterList}
+                    urlPlaceholder="ExactTabGroupName or *wildcard*"
+                    label="Tab group names"
+                    sites={state.tabGroupNameFilterList}
                     helpText={
-                      state.tabNameFilterMode === 'deny'
-                        ? 'Tab names that you want to exclude from logging. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
-                        : 'Tab names that you want to log. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
+                      state.tabGroupNameFilterMode === 'deny'
+                        ? 'Tab group names that you want to exclude from logging. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
+                        : 'Tab group names that you want to log. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
                     }
                   />
                 </div>
