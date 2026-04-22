@@ -22,7 +22,12 @@ describe('MainList', () => {
   it('should render properly', () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { container } = renderWithProviders(
-      <MainList loggingEnabled={loggingEnabled} totalTimeLoggedToday={totalTimeLoggedToday} />,
+      <MainList
+        isDomainIgnored={false}
+        loggingEnabled={loggingEnabled}
+        totalTimeLoggedToday={totalTimeLoggedToday}
+        currentTabUrl={''}
+      />,
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -42,14 +47,7 @@ describe('MainList', () => {
             />
           </div>
           <div
-            class="placeholder-glow"
-          >
-            <span
-              class="placeholder col-12"
-            />
-          </div>
-          <div
-            class="list-group"
+            class="list-group my-3"
           >
             <a
               class="list-group-item text-body-secondary"
@@ -60,6 +58,20 @@ describe('MainList', () => {
               />
               Options
             </a>
+          </div>
+          <div
+            class="placeholder-glow"
+          >
+            <span
+              class="placeholder col-12"
+            />
+          </div>
+          <div
+            class="placeholder-glow"
+          >
+            <span
+              class="placeholder col-12"
+            />
           </div>
         </div>
       </div>
