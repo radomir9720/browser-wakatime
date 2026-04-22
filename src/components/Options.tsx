@@ -358,7 +358,7 @@ export default function Options(): JSX.Element {
                       onChange={(_) => updateTabGroupNameFilterMode('deny')}
                     />
                     <label className="form-check-label" htmlFor="tabNameFilterDeny">
-                      Log all tabs except tabs from the list
+                      Log all except tabs from the tab group list
                     </label>
                   </div>
 
@@ -372,7 +372,7 @@ export default function Options(): JSX.Element {
                       onChange={(_) => updateTabGroupNameFilterMode('allow')}
                     />
                     <label className="form-check-label" htmlFor="tabNameFilterAllow">
-                      Log only tabs from the list
+                      Log only from the tab group list
                     </label>
                   </div>
 
