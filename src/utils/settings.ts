@@ -1,5 +1,11 @@
 import browser from 'webextension-polyfill';
-import config, { ExtensionStatus, LoggingStyle, LoggingType, Theme } from '../config/config';
+import config, {
+  ExtensionStatus,
+  LoggingStyle,
+  LoggingType,
+  TabNameFilterMode,
+  Theme,
+} from '../config/config';
 
 export interface ProjectName {
   projectName: string;
@@ -21,6 +27,8 @@ export interface Settings {
   loggingStyle: LoggingStyle;
   loggingType: LoggingType;
   socialMediaSites: string[];
+  tabNameFilterList: string[];
+  tabNameFilterMode: TabNameFilterMode;
   theme: Theme;
   trackSocialMedia: boolean;
   useGroupNameAsProjectName: boolean;
@@ -41,6 +49,8 @@ export const getSettings = async (): Promise<Settings> => {
     loggingStyle: config.loggingStyle,
     loggingType: config.loggingType,
     socialMediaSites: config.socialMediaSites,
+    tabNameFilterList: [],
+    tabNameFilterMode: 'deny',
     theme: config.theme,
     trackSocialMedia: true,
     useGroupNameAsProjectName: false,
@@ -84,6 +94,8 @@ export const getSettings = async (): Promise<Settings> => {
     loggingStyle: settings.loggingStyle,
     loggingType: settings.loggingType,
     socialMediaSites: settings.socialMediaSites,
+    tabNameFilterList: settings.tabNameFilterList,
+    tabNameFilterMode: settings.tabNameFilterMode,
     theme: settings.theme,
     trackSocialMedia: settings.trackSocialMedia,
     useGroupNameAsProjectName: settings.useGroupNameAsProjectName,

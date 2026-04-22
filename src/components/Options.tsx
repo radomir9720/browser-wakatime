@@ -37,6 +37,8 @@ export default function Options(): JSX.Element {
     loggingStyle: config.loggingStyle,
     loggingType: config.loggingType,
     socialMediaSites: config.socialMediaSites,
+    tabNameFilterList: [],
+    tabNameFilterMode: 'deny',
     theme: config.theme,
     trackSocialMedia: config.trackSocialMedia,
     useGroupNameAsProjectName: config.useGroupNameAsProjectName,
@@ -77,6 +79,8 @@ export default function Options(): JSX.Element {
       loggingStyle: state.loggingStyle,
       loggingType: state.loggingType,
       socialMediaSites: state.socialMediaSites.filter((item) => !!item.trim()),
+      tabNameFilterList: state.tabNameFilterList.filter((item) => !!item.trim()),
+      tabNameFilterMode: state.tabNameFilterMode,
       theme: state.theme,
       trackSocialMedia: state.trackSocialMedia,
       useGroupNameAsProjectName: state.useGroupNameAsProjectName,
@@ -159,6 +163,20 @@ export default function Options(): JSX.Element {
     setState((oldState) => ({
       ...oldState,
       logOnlyGroupedTabsActivity: !oldState.logOnlyGroupedTabsActivity,
+    }));
+  }, []);
+
+  const updateTabNameFilterMode = useCallback((style: string) => {
+    setState((oldState) => ({
+      ...oldState,
+      tabNameFilterMode: style === 'allow' ? 'allow' : 'deny',
+    }));
+  }, []);
+
+  const updateTabNameFilterList = useCallback((tabNameFilterList: string[]) => {
+    setState((oldState) => ({
+      ...oldState,
+      tabNameFilterList,
     }));
   }, []);
 
@@ -316,7 +334,6 @@ export default function Options(): JSX.Element {
 
               <div>
                 <input
-                  disabled={IS_OPERA}
                   type="checkbox"
                   className="me-2"
                   checked={state.logOnlyGroupedTabsActivity}
@@ -326,6 +343,52 @@ export default function Options(): JSX.Element {
                   Log only grouped tabs activity
                 </span>
               </div>
+
+              {(state.useGroupNameAsProjectName || state.logOnlyGroupedTabsActivity) && (
+                <div className="mt-3 ps-3">
+                  <label className="form-label">Tab name filter</label>
+
+                  <div className="form-check mb-3">
+                    <input
+                      id="tabNameFilterDeny"
+                      type="radio"
+                      name="tabNameFilterMode"
+                      className="form-check-input"
+                      checked={state.tabNameFilterMode === 'deny'}
+                      onChange={(_) => updateTabNameFilterMode('deny')}
+                    />
+                    <label className="form-check-label" htmlFor="tabNameFilterDeny">
+                      Log all tabs except tabs from the list
+                    </label>
+                  </div>
+
+                  <div className="form-check mb-3">
+                    <input
+                      id="tabNameFilterAllow"
+                      type="radio"
+                      name="tabNameFilterMode"
+                      className="form-check-input"
+                      checked={state.tabNameFilterMode === 'allow'}
+                      onChange={(_) => updateTabNameFilterMode('allow')}
+                    />
+                    <label className="form-check-label" htmlFor="tabNameFilterAllow">
+                      Log only tabs from the list
+                    </label>
+                  </div>
+
+                  <SitesList
+                    addButtonLabel="Add tab/workspace name"
+                    handleChange={updateTabNameFilterList}
+                    label="Tab names"
+                    sites={state.tabNameFilterList}
+                    helpText={
+                      state.tabNameFilterMode === 'deny'
+                        ? 'Tab names that you want to exclude from logging. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
+                        : 'Tab names that you want to log. Supports wildcards (*): chat* matches "chatroom" or "chat group", *debug* matches any name containing "debug".'
+                    }
+                  />
+                </div>
+              )}
 
               {IS_YANDEX && (
                 <details>
@@ -350,7 +413,7 @@ export default function Options(): JSX.Element {
                     'Also be aware that in Opera every tab is in a workspace(either the default one, or created by you). '
                   }
                   {
-                    'That\'s why the "Log only grouped tabs activity" checkbox is disabled in Opera. It will have no effect'
+                    'That\'s why you may want to set up the "Tab name filter" feature to filter all the unwanted workspaces(for example the default one) from your activity'
                   }
                 </span>
               )}

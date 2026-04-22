@@ -94,6 +94,28 @@ class WakaTimeCore {
     return site?.projectName;
   }
 
+  shouldLogTabByName(tabName: string | undefined, settings: Settings): boolean {
+    if (!settings.useGroupNameAsProjectName && !settings.logOnlyGroupedTabsActivity) return true;
+    if (!tabName) return true;
+    if (settings.tabNameFilterList.length === 0) return true;
+
+    if (settings.tabNameFilterMode === 'deny') {
+      return (
+        settings.tabNameFilterList.find((pattern) => {
+          const re = new RegExp(pattern.replace(/\*/g, '.*'));
+          return re.test(tabName);
+        }) == undefined
+      );
+    } else {
+      return (
+        settings.tabNameFilterList.find((pattern) => {
+          const re = new RegExp(pattern.replace(/\*/g, '.*'));
+          return re.test(tabName);
+        }) !== undefined
+      );
+    }
+  }
+
   async handleActivity(tabId: number, isPassiveActivity: boolean = false) {
     const settings = await getSettings();
     if (!settings.loggingEnabled) {
@@ -221,6 +243,10 @@ class WakaTimeCore {
 
       if (settings.useGroupNameAsProjectName) groupName = _groupName;
       if (settings.logOnlyGroupedTabsActivity && _groupName === undefined) return;
+    }
+
+    if (!this.shouldLogTabByName(groupName, settings)) {
+      return;
     }
 
     return {

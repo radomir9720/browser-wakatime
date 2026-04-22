@@ -10,6 +10,11 @@ export type ExtensionStatus = 'allGood' | 'trackingDisabled' | 'notSignedIn' | '
 export type LoggingStyle = 'allow' | 'deny';
 
 /**
+ * Tab name filter mode: 'deny' to exclude tabs, 'allow' to include only specified tabs
+ */
+export type TabNameFilterMode = 'allow' | 'deny';
+
+/**
  * Logging type
  */
 export type LoggingType = 'domain' | 'url';
@@ -100,6 +105,14 @@ export interface Config {
    * Get stats from the wakatime api
    */
   summariesApiEndPoint: string;
+  /**
+   * List of tab names to filter
+   */
+  tabNameFilterList: string[];
+  /**
+   * Tab name filter mode: 'deny' to exclude tabs, 'allow' to include only specified tabs
+   */
+  tabNameFilterMode: TabNameFilterMode;
   /**
    * Options for theme
    */
@@ -195,6 +208,10 @@ const config: Config = {
   states: ['allGood', 'trackingDisabled', 'notSignedIn', 'ignored'],
 
   summariesApiEndPoint: process.env.SUMMARIES_API_URL ?? '/users/current/summaries',
+
+  tabNameFilterList: [],
+
+  tabNameFilterMode: 'deny',
 
   theme: 'light',
   tooltips: {
